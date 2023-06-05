@@ -1,13 +1,18 @@
 extends layout
 
 block content
+  header 
+    input(type="text" id="searchinput" placeholder="Search in authors...")
+    button(type="button" id="searchbutton") Go to author -&gt
   h1= title
 
-  ul
-  each author in author_list
-    li
-      a(href=author.url) #{author.name}
-      | (#{author.lifespan})
+  ul(id="List")
+    each author in author_list
+      li
+        a(href=author.url) #{author.name}
+        |  (#{author.lifespan})
 
-  else
-    li There are no authors.
+    else
+      li There are no authors.
+    
+  script(src="/javascripts/searchscript.js")

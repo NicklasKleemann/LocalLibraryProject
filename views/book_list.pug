@@ -1,13 +1,15 @@
 extends layout
 
 block content
+  header 
+    input(type="text" id="searchinput" placeholder="Search in books...")
+    button(type="button" id="searchbutton") Go to book -&gt
+
   h1= title
-  
-  ul
+  ul(id="List")
     each book in book_list
       li
-        a(href=book.url) #{book.title}
-        |  (#{book.author.name})
+        a(href=book.url) #{book.title} - 
+         span.author #{book.author.name}
 
-    else
-      li There are no books.
+  script(src="/javascripts/searchscript.js")

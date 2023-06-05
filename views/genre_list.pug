@@ -1,12 +1,16 @@
 extends layout
 
 block content
+  header 
+    input(type="text" id="searchinput" placeholder="Search in genres...")
+    button(type="button" id="searchbutton") Go to genre -&gt
   h1= title
 
-  ul
-  each val in list_genres
-    li
-      a(href=val.url) #{val.name}
+  ull(id="List")
+    each val in list_genres
+      li
+        a(href=val.url) #{val.name}
 
-  else
-    li There are no genre.
+    else
+      li There are no genre.
+  script(src="/javascripts/searchscript.js")
