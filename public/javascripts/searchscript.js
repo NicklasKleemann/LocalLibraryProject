@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let bookStatus = '';
 
       // Check if author element exists
-      const authorElement = itemLi.querySelector('.author');
+      const authorElement = itemLi.querySelector('span');
       if (authorElement) {
         authorName = authorElement.textContent.toLowerCase();
       }
@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (combinedText.includes(searchTerm)) {
         itemURL = itemLi.querySelector('a').getAttribute('href');
+        return;
       }
     });
 

@@ -3,7 +3,7 @@ extends layout
 block content
   h1=title
 
-  form(method='POST' action='')
+  form(method='POST' action='' enctype='multipart/form-data')
     div.form-group
       label(for='first_name') First Name:
       input#first_name.form-control(type='text', placeholder='First name (Christian)' name='first_name' required='true' value=(undefined===author ? '' : author.first_name) )
@@ -15,6 +15,8 @@ block content
     div.form-group
       label(for='date_of_death') Date of death:
       input#date_of_death.form-control(type='date', name='date_of_death' value=(undefined===author ? '' : author.date_of_death_yyyy_mm_dd) )
+    div.form-group
+      input#image_path.form-control(type='file' name='imagePath' value=(undefined===author ? '' : author.imagePath) )
     button.btn(type='submit') Submit
 
   if errors

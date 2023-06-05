@@ -1,8 +1,22 @@
 const Author = require("../models/author");
 const Book = require("../models/book");
+const multer = require('multer');
 
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+//set up multer upload middelware
+const upload = multer({ storage: storage });
 
 // Display list of all Authors.
 exports.author_list = asyncHandler(async (req, res, next) => {
@@ -42,6 +56,8 @@ exports.author_create_get = (req, res, next) => {
 
 // Handle Author create on POST.
 exports.author_create_post = [
+  //upload photo
+  upload.single("imagePath"),
   // Validate and sanitize fields.
   body("first_name")
     .trim()
@@ -78,6 +94,11 @@ exports.author_create_post = [
       date_of_birth: req.body.date_of_birth,
       date_of_death: req.body.date_of_death,
     });
+
+    //if we got a file, update the imagePath
+    if (req.file) {
+      author.imagePath = "/images/" + req.file.filename;
+    }
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
@@ -154,57 +175,47 @@ exports.author_update_get = asyncHandler(async (req, res, next) => {
   res.render("author_form", { title: "Update Author", author: author });
 });
 
-// Handle Author update on POST.
+// Author update form controller (POST)
 exports.author_update_post = [
-  // Validate and sanitize fields.
-  body("first_name")
-    .trim()
-    .isLength({ min: 1 })
-    .escape()
-    .withMessage("First name must be specified.")
-    .isAlphanumeric()
-    .withMessage("First name has non-alphanumeric characters."),
-  body("family_name")
-    .trim()
-    .isLength({ min: 1 })
-    .escape()
-    .withMessage("Family name must be specified.")
-    .isAlphanumeric()
-    .withMessage("Family name has non-alphanumeric characters."),
-  body("date_of_birth", "Invalid date of birth")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
-  body("date_of_death", "Invalid date of death")
-    .optional({ values: "falsy" })
-    .isISO8601()
-    .toDate(),
-
-  // Process request after validation and sanitization.
+  // ...
+  
+  // Process the request after validation and sanitization
   asyncHandler(async (req, res, next) => {
-    // Extract the validation errors from a request.
+    // Extract the validation errors from the request
     const errors = validationResult(req);
 
-    // Create Author object with escaped and trimmed data (and the old id!)
+    // Create a new Author object with sanitized data and existing ID
     const author = new Author({
       first_name: req.body.first_name,
-      family_name: req.body.family_name,
+      last_name: req.body.last_name,
       date_of_birth: req.body.date_of_birth,
       date_of_death: req.body.date_of_death,
       _id: req.params.id,
     });
 
+    // Check if there are validation errors
     if (!errors.isEmpty()) {
-      // There are errors. Render the form again with sanitized values and error messages.
+      // Render the author_form template with errors and sanitized values
       res.render("author_form", {
         title: "Update Author",
         author: author,
         errors: errors.array(),
       });
-      return;
     } else {
-      // Data from form is valid. Update the record.
-      await Author.findByIdAndUpdate(req.params.id, author);
+      // Data from the form is valid, update the record
+
+      // Check if an image was uploaded
+      if (req.file) {
+        // Update the author's image path in the database
+        author.imagePath = req.file.filename;
+      }else{
+        // No image was uploaded, use the existing image path
+        author.imagePath = req.body.existingImage;
+      }
+
+      await Author.findByIdAndUpdate(req.params.id, author, {});
+
+      // Redirect to the author's detail page
       res.redirect(author.url);
     }
   }),
