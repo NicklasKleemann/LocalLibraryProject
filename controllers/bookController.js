@@ -13,12 +13,10 @@ exports.index = asyncHandler(async (req, res, next) => {
     numBookInstances,
     numAvailableBookInstances,
     numAuthors,
-    numGenres,
   ] = await Promise.all([
     Book.countDocuments({}).exec(),
     BookInstance.countDocuments({}).exec(),
     BookInstance.countDocuments({ status: "Available" }).exec(),
-    Author.countDocuments({}).exec(),
     Author.countDocuments({}).exec(),
   ]);
 
@@ -28,7 +26,6 @@ exports.index = asyncHandler(async (req, res, next) => {
     book_instance_count: numBookInstances,
     book_instance_available_count: numAvailableBookInstances,
     author_count: numAuthors,
-    genre_count: numGenres,
   });
 });
 
