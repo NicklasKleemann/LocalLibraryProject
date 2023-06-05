@@ -3,10 +3,10 @@ extends layout
 block content
   header 
     input(type="text" id="searchinput" placeholder="Search in genres...")
-    button(type="button" id="searchbutton") Go to genre -&gt
+    button.btn(type="button" id="searchbutton") Go to genre -&gt
   h1= title
 
-  ull(id="List")
+  ul.sidebar-nav(id="List")
     each val in list_genres
       li
         a(href=val.url) #{val.name}

@@ -3,14 +3,14 @@ extends layout
 block content
   header 
     input(type="text" id="searchinput" placeholder="Search in authors...")
-    button(type="button" id="searchbutton") Go to author -&gt
+    button.btn(type="button" id="searchbutton") Go to author -&gt
   h1= title
 
-  ul(id="List")
+  ul.sidebar-nav(id="List")
     each author in author_list
       li
-        a(href=author.url) #{author.name}
-        |  (#{author.lifespan})
+        a(href=author.url) #{author.name} - 
+          span (#{author.lifespan})
 
     else
       li There are no authors.

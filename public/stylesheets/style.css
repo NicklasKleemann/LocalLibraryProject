@@ -1,62 +1,125 @@
+/* Styling for the sidebar navigation */
 .sidebar-nav {
   margin-top: 20px;
+  width: auto;
   padding: 0;
   list-style: none;
 }
-/* Reset default styles */
-html, body, h1, h2, h3, p, ul, li {
-  margin: 0;
-  padding: 0;
+
+.sidebar-nav li {
+  position: relative;
+  padding: 10px;
+  opacity: 0.7; /* Reduced opacity for non-hovered items */
+  transition: opacity 0.3s ease; /* Smooth opacity transition on hover */
 }
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
+.sidebar-nav li:hover {
+  opacity: 1; /* Full opacity on hover */
 }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
+.sidebar-nav li a {
+  display: block;
+  color: #fff; /* White link color */
+  text-decoration: none;
+  position: relative;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.sidebar-nav li a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #fff; /* White dot color */
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth opacity and transform transition on hover */
 }
 
-form {
-  margin-bottom: 20px;
+.sidebar-nav li a:hover::before {
+  opacity: 1; /* Full opacity on hover */
+  transform: scale(1.5); /* Increase dot size on hover */
 }
 
-input[type="text"] {
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 8px 16px;
-  font-size: 16px;
+.sidebar-nav li hr {
+  border-color: #ddd;
+  margin-top: 15px;
+  margin-bottom: 15px;
   border: none;
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-
+  height: 1px;
+  background-color: #fff; /* White line color */
+  opacity: 0.5;
 }
 
-button:hover {
-  background-color: #0056b3;
+/* Additional styling for the body */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Use vh unit for height */
+  background-color: #222; /* Darker grey background color */
+  color: #fff; /* Set the text color to white */
+  margin: 0; /* Remove default body margin */
 }
 
-ul {
-  list-style-type: none;
+.container-fluid {
+  width: 90vw; /* Use vw unit for width */
+  max-width: 900px;
+  background-color: #333; /* Dark grey background color */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  opacity: 0.9; /* Reduced opacity for the container */
+  transition: opacity 0.3s ease; /* Smooth opacity transition on hover */
 }
 
-li {
-  margin-bottom: 5px;
+.container-fluid:hover {
+  opacity: 1; /* Full opacity on hover */
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.col-sm-10 {
+  flex: 1;
+}
+
+.col-sm-2 {
+  flex: 0 0 200px;
+  background-color: #444; /* Dark grey background color */
+  padding: 20px;
+  opacity: 0.8; /* Reduced opacity for the sidebar */
+  transition: opacity 0.3s ease; /* Smooth opacity transition on hover */
+}
+
+.col-sm-2:hover {
+  opacity: 1; /* Full opacity on hover */
+}
+
+button.btn {
+  background-color: #2f2fbb; /* Red background color */
+  color: #fff; /* White text color */
+  border: none;
+  padding: auto;
+  border-radius: 5px;
+  position: relative;
+}
+
+button.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacitrgba(77, 77, 77, 0.5)
+}
+
+button.btn:hover::before {
+  opacity: 1;
+}
