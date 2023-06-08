@@ -178,7 +178,31 @@ exports.author_update_get = asyncHandler(async (req, res, next) => {
 // Author update form controller (POST)
 exports.author_update_post = [
   // ...
-  
+    //upload photo
+    upload.single("imagePath"),
+    // Validate and sanitize fields.
+    body("first_name")
+      .trim()
+      .isLength({ min: 1 })
+      .escape()
+      .withMessage("First name must be specified.")
+      .isAlphanumeric()
+      .withMessage("First name has non-alphanumeric characters."),
+    body("family_name")
+      .trim()
+      .isLength({ min: 1 })
+      .escape()
+      .withMessage("Family name must be specified.")
+      .isAlphanumeric()
+      .withMessage("Family name has non-alphanumeric characters."),
+    body("date_of_birth", "Invalid date of birth")
+      .optional({ values: "falsy" })
+      .isISO8601()
+      .toDate(),
+    body("date_of_death", "Invalid date of death")
+      .optional({ values: "falsy" })
+      .isISO8601()
+      .toDate(),
   // Process the request after validation and sanitization
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from the request
@@ -193,6 +217,17 @@ exports.author_update_post = [
       _id: req.params.id,
     });
 
+    // Data from the form is valid, update the record
+
+    // Check if an image was uploaded
+    if (req.file) {
+      // Update the author's image path in the database
+      author.imagePath =  "/images/" + req.file.filename;
+    } else {
+      // No image was uploaded, use the existing image path
+      author.imagePath = req.body.existingImage;
+    }
+
     // Check if there are validation errors
     if (!errors.isEmpty()) {
       // Render the author_form template with errors and sanitized values
@@ -202,16 +237,6 @@ exports.author_update_post = [
         errors: errors.array(),
       });
     } else {
-      // Data from the form is valid, update the record
-
-      // Check if an image was uploaded
-      if (req.file) {
-        // Update the author's image path in the database
-        author.imagePath = req.file.filename;
-      }else{
-        // No image was uploaded, use the existing image path
-        author.imagePath = req.body.existingImage;
-      }
 
       await Author.findByIdAndUpdate(req.params.id, author, {});
 

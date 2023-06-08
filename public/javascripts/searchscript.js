@@ -8,22 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     itemList.forEach(function(itemLi) {
       const itemTitle = itemLi.querySelector('a').textContent.toLowerCase();
-      let authorName = '';
-      let bookStatus = '';
-
-      // Check if author element exists
-      const authorElement = itemLi.querySelector('span');
-      if (authorElement) {
-        authorName = authorElement.textContent.toLowerCase();
-      }
+      let itemContent = '';
 
       // Check if status element exists
-      const statusElement = itemLi.querySelector('span');
-      if (statusElement) {
-        bookStatus = statusElement.textContent.toLowerCase();
+      const itemElement = itemLi.querySelector('span');
+      if (itemElement) {
+        itemContent = itemElement.textContent.toLowerCase();
       }
 
-      const combinedText = itemTitle + ' ' + authorName + ' ' + bookStatus;
+      const combinedText = itemTitle + ' ' + itemContent;
 
       if (combinedText.includes(searchTerm)) {
         itemLi.style.display = 'list-item';
@@ -39,22 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     itemList.forEach(function(itemLi) {
       const itemTitle = itemLi.querySelector('a').textContent.toLowerCase();
-      let authorName = '';
-      let bookStatus = '';
-
-      // Check if author element exists
-      const authorElement = itemLi.querySelector('span');
-      if (authorElement) {
-        authorName = authorElement.textContent.toLowerCase();
-      }
+      let itemContent = '';
 
       // Check if status element exists
-      const statusElement = itemLi.querySelector('span');
-      if (statusElement) {
-        bookStatus = statusElement.textContent.toLowerCase();
+      const itemElement = itemLi.querySelector('span');
+      if (itemElement) {
+        itemContent = itemElement.textContent.toLowerCase();
       }
 
-      const combinedText = itemTitle + ' ' + authorName + ' ' + bookStatus;
+      const combinedText = itemTitle + ' ' + itemContent;
 
       if (combinedText.includes(searchTerm)) {
         itemURL = itemLi.querySelector('a').getAttribute('href');
